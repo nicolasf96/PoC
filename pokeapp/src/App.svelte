@@ -43,7 +43,7 @@ const loadData = async () => {
 
     <nav class="navbar is-transparent inherit">
       <div class="navbar-brand">
-        <a class="navbar-item poctitle" href="google.com">
+        <a class="navbar-item poctitle" href="#">
           PoC Svelte
         </a>
         <div class="navbar-burger" data-target="navbarExampleTransparentExample">
@@ -70,8 +70,10 @@ const loadData = async () => {
 
 
 <div class="columns is-centered">
-  <div class="column is-7 ">
+  <div class="column is-3 ">
     {count} of {poks.length} selected
+  </div>
+  <div class="column is-4">
     <div class="bar">
       <div class="progress" style="--progress: {progress}px">
       </div>
