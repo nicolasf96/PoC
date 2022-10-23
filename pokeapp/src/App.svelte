@@ -2,7 +2,7 @@
 
 let poks = []
 let count = 0
-let yes = false
+let progress = 1;
 
 const loadData = async () => {
     const res = await fetch(
@@ -16,6 +16,10 @@ const loadData = async () => {
   };
   loadData();
 
+  function calculateProgress(){
+    progress = (count/poks.length)*300
+  }
+
   function handleClick(p){
     p.checked = !p.checked
     if(p.checked){
@@ -25,10 +29,11 @@ const loadData = async () => {
         count--
       }
     }
-    console.log(p)
+    calculateProgress()
+
   }
-
-
+  
+  
 </script>
 
 <main>
@@ -50,27 +55,12 @@ const loadData = async () => {
     
       <div id="navbarExampleTransparentExample" class="navbar-menu">
         <div class="navbar-start">
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" href="https://bulma.io/documentation/overview/start/">
-              Listados
-            </a>
-            <div class="navbar-dropdown is-boxed">
-              <a class="navbar-item" href="https://bulma.io/documentation/overview/start/">
-                Listado1
-              </a>
-              <a class="navbar-item" href="https://bulma.io/documentation/overview/modifiers/">
-                Listado2
-              </a>
-              <a class="navbar-item" href="https://bulma.io/documentation/columns/basics/">
-                Listado3
-              </a>
-            </div>
-          </div>
+          
         </div>
     
         <div class="navbar-end">
           <div class="navbar-item">
-            Sort
+            <!-- ACA VA ALGO -->
           </div>
         </div>
       </div>
@@ -80,19 +70,28 @@ const loadData = async () => {
 
 
 <div class="columns is-centered">
-  <div class="column is-10 ">
-    {count} of {poks.length} selected ({(count/poks.length)*100}%)
+  <div class="column is-7 ">
+    {count} of {poks.length} selected
+    <div class="bar">
+      <div class="progress" style="--progress: {progress}px">
+      </div>
+    </div>
+    ({Math.round((count/poks.length)*100)}%)
+  </div>
+  <div class="column is-3">
+    <button class="button is-small is-info f-right" >Sort</button>
   </div>
 </div>
 
 <div class="columns is-centered">
   <div class="column is-10">
     {#each poks as p, i}
-      <div class="card pokcard no-shadow">
+      <div class="card pokcard no-shadow" class:checked="{p.checked === true}">
         <div class="card-header no-shadow">
           {p.name}
+
           <label class="checkbox">
-            <input type="checkbox" class:checked={p.checked} bind:checked={p.checked} on:click|preventDefault={() => handleClick(p)} >
+            <input type="checkbox" bind:checked={p.checked} on:click={() => handleClick(p)} >
           </label>
         </div>
         <div class="card-image">
@@ -148,6 +147,26 @@ const loadData = async () => {
   }
 
   .checked{
-    box-shadow: 0 0 0 3px hotpink;
+    box-shadow: 0 0 0 2px green;
+  }
+
+  div.bar{
+    display: inline-block;
+    margin-left: 20px;
+    padding: 3px;
+    height: 25px;
+    width: 306px;
+    border: 1px solid gray;
+    position: relative;
+  }
+  div.progress{
+    border-radius: 0;
+    height: 18px;
+    background-color: green;
+    width: var(--progress);
+  }
+
+  .f-right{
+    float: right;
   }
 </style>
